@@ -19,9 +19,18 @@ function AppContextProvider({ children }) {
   };
 
   const baseUrl = "https://codehelp-apis.vercel.app/api/get-blogs";
-async function getPosts(page=1) {
-    
-}
-
+  async function fetchPosts() {
+    try {
+      let url = `${baseUrl}?pg=${page}`;
+      setloading(true);
+      const response = await fetch(url);
+      const data = await response.json();
+      console.log(data);
+      setpage(data.page)
+    } catch (error) {
+      console.log("404", error);
+    }
+  }
+  fetchPosts()
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 }
